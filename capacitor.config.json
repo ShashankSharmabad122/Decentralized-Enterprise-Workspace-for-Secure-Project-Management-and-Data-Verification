@@ -1,0 +1,9 @@
+{
+  "appId": "com.dos.enterprise.workspace",
+  "appName": "dOS Workspace",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}

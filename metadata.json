@@ -1,0 +1,6 @@
+{
+  "name": "dOS - Decentralized Enterprise Workspace",
+  "description": "Blockchain-powered enterprise Web-OS with hybrid RSA-AES encryption, smart contract audit registry, zero-trust access control, and project management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

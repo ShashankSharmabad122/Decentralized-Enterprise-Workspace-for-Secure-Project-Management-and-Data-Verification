@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">dOS Workspace</string>
+    <string name="title_activity_main">dOS Workspace</string>
+    <string name="package_name">com.dos.enterprise.workspace</string>
+    <string name="custom_url_scheme">com.dos.enterprise.workspace</string>
+</resources>

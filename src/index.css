@@ -1,0 +1,797 @@
+/* ─── IMPORTS MUST COME FIRST ─────────────────────────── */
+@import "tailwindcss";
+
+/* ─── CSS VARIABLES ────────────────────────────────────── */
+:root {
+  --ice-1:   #e8f4f8;
+  --ice-2:   #b8d9e8;
+  --ice-3:   #7ab8d0;
+  --ice-4:   #4a9ab5;
+  --ice-5:   #1e7a9a;
+  --ice-6:   #0d5f7d;
+  --deep:    #040d14;
+  --deep-2:  #061520;
+  --deep-3:  #0a1f30;
+  --glass:   rgba(10, 25, 40, 0.55);
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Safe-area inset fallbacks */
+  --sat: env(safe-area-inset-top,    0px);
+  --sar: env(safe-area-inset-right,  0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left,   0px);
+
+  /* Responsive navbar/taskbar heights */
+  --navbar-h: 52px;
+  --taskbar-h: 68px;
+}
+
+/* ─── BASE ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--deep);
+  color: var(--ice-1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  line-height: 1.6;
+  /* Prevent text resize on orientation change */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Prevent overscroll bounce on iOS */
+  overscroll-behavior: none;
+  /* Improve touch responsiveness */
+  touch-action: manipulation;
+}
+
+/* Responsive base font */
+@media (max-width: 480px) {
+  html { font-size: 12px; }
+}
+@media (min-width: 1440px) {
+  html { font-size: 15px; }
+}
+
+/* ─── SCROLLBAR ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--ice-6); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ice-4); }
+
+/* ─── LENIS SMOOTH SCROLL ───────────────────────────────── */
+/* Lenis scopes scroll to the portfolio pane, not window.   */
+/* Prevent Lenis interfering with OS window frame scrolling */
+[data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ─── GSAP PORTFOLIO ANIMATIONS ─────────────────────────── */
+/* Initial hidden state for GSAP-driven elements            */
+.hero-char {
+  will-change: transform, opacity;
+  display: inline-block;
+}
+
+/* Smooth perspective for hero name 3D rotation */
+#yp-hero > div[style*="zIndex:2"],
+#yp-hero > div[style*="z-index: 2"] {
+  perspective: 1200px;
+}
+
+/* Magnetic cursor smooth transition */
+.gsap-cursor-blob,
+.gsap-cursor-ring {
+  transform: translate(0, 0);
+}
+
+/* Portfolio scroll progress glow pulse */
+@keyframes progress-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(74,154,181,0.8); }
+  50%       { box-shadow: 0 0 18px rgba(74,154,181,1); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ICE CARD  —  core bento tile
+   ═══════════════════════════════════════════════════════════ */
+.ice-card {
+  background: linear-gradient(160deg,
+    rgba(10, 31, 48, 0.85) 0%,
+    rgba(4, 13, 20, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(74, 154, 181, 0.12);
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+}
+
+/* top-edge shine */
+.ice-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184,217,232,0.2), transparent);
+  pointer-events: none;
+}
+
+.ice-card:hover {
+  border-color: rgba(74, 154, 181, 0.38);
+  box-shadow: 0 0 30px rgba(74,154,181,0.15), 0 16px 48px -12px rgba(0,0,0,0.5);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   IGLOO NAVBAR
+   ═══════════════════════════════════════════════════════════ */
+.igloo-navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--navbar-h);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  padding-left: calc(24px + var(--sal));
+  padding-right: calc(24px + var(--sar));
+  padding-top: var(--sat);
+  gap: 12px;
+  background: rgba(4, 13, 20, 0.82);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border-bottom: 1px solid rgba(74, 154, 181, 0.1);
+}
+
+/* Taller navbar on notch devices */
+@media (max-width: 480px) {
+  .igloo-navbar {
+    height: calc(var(--navbar-h) + var(--sat));
+    padding: 0 14px;
+    padding-top: var(--sat);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   IGLOO TASKBAR — floating pill at bottom
+   ═══════════════════════════════════════════════════════════ */
+.igloo-taskbar {
+  position: fixed;
+  bottom: 14px;
+  bottom: calc(14px + var(--sab));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(4, 13, 20, 0.88);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(74, 154, 181, 0.15);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+  /* Mobile: scrollable pill */
+  max-width: calc(100vw - 32px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.igloo-taskbar::-webkit-scrollbar { display: none; }
+
+@media (max-width: 600px) {
+  .igloo-taskbar {
+    bottom: calc(10px + var(--sab));
+    left: 12px;
+    right: 12px;
+    transform: none;
+    width: calc(100vw - 24px);
+    justify-content: flex-start;
+    border-radius: 18px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   WINDOW FRAME
+   ═══════════════════════════════════════════════════════════ */
+.window-frame {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background: rgba(5, 14, 22, 0.96);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(74, 154, 181, 0.14);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.03) inset,
+    0 24px 80px -12px rgba(0,0,0,0.85);
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+/* Mobile: full-screen windows */
+.window-frame.mobile-full {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: calc(var(--navbar-h) + var(--sat)) !important;
+  bottom: calc(var(--taskbar-h) + var(--sab)) !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+  border-left: none !important;
+  border-right: none !important;
+  z-index: 60 !important;
+  animation: slideUpWindow 0.28s cubic-bezier(0.34, 1.3, 0.64, 1) both;
+}
+
+@keyframes slideUpWindow {
+  from { transform: translateY(24px); opacity: 0.7; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.window-frame.focused {
+  border-color: rgba(74, 154, 181, 0.32);
+  box-shadow:
+    0 0 0 1px rgba(74,154,181,0.05) inset,
+    0 24px 80px -12px rgba(0,0,0,0.85),
+    0 0 32px rgba(74,154,181,0.12);
+}
+
+/* Resize Handles */
+.wf-resize-handle {
+  position: absolute;
+  z-index: 15;
+  touch-action: none;
+}
+.wf-resize-handle:hover {
+  background: rgba(74, 154, 181, 0.15);
+}
+
+/* Corner Grip Indicators */
+.wf-corner-indicator {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(74, 154, 181, 0.25);
+  pointer-events: none;
+  z-index: 14;
+  opacity: 0.4;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+.window-frame:hover .wf-corner-indicator,
+.window-frame.focused .wf-corner-indicator {
+  opacity: 0.8;
+  border-color: rgba(74, 154, 181, 0.5);
+}
+.wf-corner-se { bottom: 3px; right: 3px; border-top: none; border-left: none; border-bottom-right-radius: 4px; }
+.wf-corner-sw { bottom: 3px; left: 3px; border-top: none; border-right: none; border-bottom-left-radius: 4px; }
+.wf-corner-ne { top: 3px; right: 3px; border-bottom: none; border-left: none; border-top-right-radius: 4px; }
+.wf-corner-nw { top: 3px; left: 3px; border-bottom: none; border-right: none; border-top-left-radius: 4px; }
+
+/* Size indicator badge on titlebar */
+.wf-size-indicator {
+  background: rgba(74, 154, 181, 0.08);
+  border: 1px solid rgba(74, 154, 181, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+
+.window-titlebar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 10px;
+  border-bottom: 1px solid rgba(74, 154, 181, 0.08);
+  background: rgba(4, 13, 20, 0.7);
+  cursor: move;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.window-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ── Window Controls — proper icon buttons ─────────────────── */
+.wf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+/* Close — red */
+.wf-btn.close {
+  background: rgba(255, 95, 87, 0.12);
+  border-color: rgba(255, 95, 87, 0.3);
+  color: #ff5f57;
+}
+.wf-btn.close:hover {
+  background: rgba(255, 95, 87, 0.25);
+  border-color: rgba(255, 95, 87, 0.6);
+  box-shadow: 0 0 10px rgba(255,95,87,0.3);
+  transform: scale(1.04);
+}
+.wf-btn.close:active { transform: scale(0.94); opacity: 0.8; }
+
+/* Minimise — amber */
+.wf-btn.min {
+  background: rgba(254, 188, 46, 0.1);
+  border-color: rgba(254, 188, 46, 0.28);
+  color: #febc2e;
+}
+.wf-btn.min:hover {
+  background: rgba(254, 188, 46, 0.22);
+  border-color: rgba(254, 188, 46, 0.55);
+  box-shadow: 0 0 10px rgba(254,188,46,0.25);
+  transform: scale(1.04);
+}
+.wf-btn.min:active { transform: scale(0.94); opacity: 0.8; }
+
+/* Maximise — green */
+.wf-btn.max {
+  background: rgba(40, 200, 64, 0.1);
+  border-color: rgba(40, 200, 64, 0.28);
+  color: #28c840;
+}
+.wf-btn.max:hover {
+  background: rgba(40, 200, 64, 0.22);
+  border-color: rgba(40, 200, 64, 0.55);
+  box-shadow: 0 0 10px rgba(40,200,64,0.25);
+  transform: scale(1.04);
+}
+.wf-btn.max:active { transform: scale(0.94); opacity: 0.8; }
+
+/* Label text inside each button */
+.wf-btn-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* On mobile: only show icons (no labels) — save space */
+@media (max-width: 600px) {
+  .wf-btn { padding: 0 8px; height: 32px; border-radius: 8px; }
+  .wf-btn-label { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BADGE / PILL
+   ═══════════════════════════════════════════════════════════ */
+.ice-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid rgba(74, 154, 181, 0.25);
+  background: rgba(74, 154, 181, 0.08);
+  color: var(--ice-2);
+  white-space: nowrap;
+}
+.ice-badge.online  { border-color: rgba(110,231,183,0.35); color: #6ee7b7; background: rgba(110,231,183,0.07); }
+.ice-badge.warning { border-color: rgba(251,191,36,0.35);  color: #fde68a; background: rgba(251,191,36,0.07);  }
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════════════════════ */
+.btn-ice {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 11px;
+  cursor: pointer;
+  border: 1px solid rgba(74,154,181,0.35);
+  background: rgba(74,154,181,0.1);
+  color: var(--ice-1);
+  transition: all 0.2s ease;
+  letter-spacing: 0.01em;
+}
+.btn-ice:hover {
+  border-color: rgba(74,154,181,0.65);
+  background: rgba(74,154,181,0.2);
+  box-shadow: 0 0 18px rgba(74,154,181,0.2);
+  transform: translateY(-1px);
+}
+.btn-ice:active { transform: none; }
+.btn-ice:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+.btn-ice-primary {
+  background: linear-gradient(135deg, #4a9ab5 0%, #1e7a9a 100%);
+  border-color: rgba(184,217,232,0.25);
+  color: #ffffff;
+}
+.btn-ice-primary:hover {
+  background: linear-gradient(135deg, #5aadc9 0%, #2492b8 100%);
+  box-shadow: 0 0 28px rgba(74,154,181,0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TYPOGRAPHY HELPERS
+   ═══════════════════════════════════════════════════════════ */
+.font-mono { font-family: var(--font-mono) !important; }
+
+.text-gradient-ice {
+  background: linear-gradient(135deg, #e8f4f8 0%, #7ab8d0 60%, #4a9ab5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-glow {
+  background: linear-gradient(135deg, #ffffff 0%, #b8d9e8 60%, #4a9ab5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PROGRESS BAR
+   ═══════════════════════════════════════════════════════════ */
+.ice-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(74,154,181,0.1);
+  overflow: hidden;
+}
+.ice-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #4a9ab5, #b8d9e8);
+  transition: width 0.5s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PULSING DOT
+   ═══════════════════════════════════════════════════════════ */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.pulse-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #6ee7b7;
+  animation: pulse-dot 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   APP INNER LAYOUT
+   ═══════════════════════════════════════════════════════════ */
+.app-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--ice-1);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+.app-header {
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid rgba(74,154,181,0.1);
+  flex-shrink: 0;
+}
+.app-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DATA TABLE
+   ═══════════════════════════════════════════════════════════ */
+.ice-table { width: 100%; border-collapse: collapse; }
+.ice-table th {
+  padding: 8px 12px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ice-4);
+  border-bottom: 1px solid rgba(74,154,181,0.1);
+}
+.ice-table td {
+  padding: 10px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(74,154,181,0.05);
+  color: var(--ice-2);
+}
+.ice-table tr:last-child td { border-bottom: none; }
+.ice-table tr:hover td { background: rgba(74,154,181,0.04); }
+
+/* ═══════════════════════════════════════════════════════════
+   CODE BLOCK
+   ═══════════════════════════════════════════════════════════ */
+.ice-code {
+  background: rgba(2,8,14,0.9);
+  border: 1px solid rgba(74,154,181,0.15);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.75;
+  color: var(--ice-2);
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INPUT / SELECT
+   ═══════════════════════════════════════════════════════════ */
+.ice-input {
+  width: 100%;
+  background: rgba(4,13,20,0.65);
+  border: 1px solid rgba(74,154,181,0.2);
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ice-1);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ice-input:focus {
+  border-color: rgba(74,154,181,0.5);
+  box-shadow: 0 0 14px rgba(74,154,181,0.12);
+}
+.ice-input::placeholder { color: var(--ice-6); }
+
+/* ═══════════════════════════════════════════════════════════
+   SPINNER
+   ═══════════════════════════════════════════════════════════ */
+@keyframes ice-spin { to { transform: rotate(360deg); } }
+.ice-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(74,154,181,0.2);
+  border-top-color: var(--ice-4);
+  border-radius: 50%;
+  animation: ice-spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CHIP / TAG
+   ═══════════════════════════════════════════════════════════ */
+.ice-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: rgba(74,154,181,0.1);
+  border: 1px solid rgba(74,154,181,0.2);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ice-3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.anim-fade-up { animation: fadeUp 0.6s ease both; }
+.anim-fade-in { animation: fadeIn 0.4s ease both; }
+
+.scramble-cursor::after {
+  content: '▋';
+  animation: blink 0.9s step-end infinite;
+  color: var(--ice-3);
+  margin-left: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE HAMBURGER DRAWER
+   ═══════════════════════════════════════════════════════════ */
+.mobile-nav-drawer {
+  position: fixed;
+  top: calc(var(--navbar-h) + var(--sat));
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: rgba(4, 13, 20, 0.97);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border-bottom: 1px solid rgba(74, 154, 181, 0.15);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: slideDown 0.2s ease both;
+  max-height: calc(100vh - var(--navbar-h) - var(--sat) - 80px);
+  overflow-y: auto;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-8px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE GRID HELPERS
+   ═══════════════════════════════════════════════════════════ */
+.grid-responsive-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+@media (max-width: 600px) {
+  .grid-responsive-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOUCH TARGETS — ensure 44px minimum
+   ═══════════════════════════════════════════════════════════ */
+button, [role="button"], a {
+  min-height: 36px;
+  touch-action: manipulation;
+}
+
+/* App body scrolling on mobile */
+.app-body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Prevent text selection during drag */
+.window-titlebar {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DESKTOP SECTION RESPONSIVE OVERRIDES
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .app-header { padding: 12px 14px 10px; }
+  .app-body   { padding: 12px 14px; }
+  .ice-table th, .ice-table td { padding: 8px 8px; font-size: 11px; }
+  .igloo-navbar .desktop-only { display: none !important; }
+}
+
+@media (max-width: 480px) {
+  .ice-card { border-radius: 14px; }
+  .btn-ice  { padding: 10px 14px; font-size: 12px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLOBAL TAP HIGHLIGHT REMOVAL
+   ═══════════════════════════════════════════════════════════ */
+/* Remove the default blue/grey flash on iOS/Android tap */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOUCH DEVICE — hover → :active press feedback
+   Applied when device has no hover capability (phone/tablet)
+   ═══════════════════════════════════════════════════════════ */
+@media (hover: none) {
+
+  /* ─ ICE CARD ────────────────────────────────────────────── */
+  /* Remove desktop lift on hover (it sticks on touch) */
+  .ice-card:hover {
+    transform:    none !important;
+    border-color: rgba(74, 154, 181, 0.12) !important;
+    box-shadow:   none !important;
+  }
+  /* Press flash (React handles most of the card feedback, this covers generic cards) */
+  .ice-card:active {
+    transform:    scale(0.974) !important;
+    border-color: rgba(74, 154, 181, 0.5) !important;
+    box-shadow:   0 0 22px rgba(74,154,181,0.2) !important;
+    transition:   transform 0.08s ease, border-color 0.08s, box-shadow 0.08s !important;
+  }
+
+  /* ─ BUTTONS ─────────────────────────────────────────────── */
+  .btn-ice:hover    { transform: none !important; box-shadow: none !important; }
+  .btn-ice:active   {
+    transform:  scale(0.95) !important;
+    opacity:    0.82 !important;
+    transition: transform 0.07s ease, opacity 0.07s !important;
+  }
+
+  .btn-ice-primary:hover  { box-shadow: none !important; }
+  .btn-ice-primary:active {
+    transform:  scale(0.96) !important;
+    opacity:    0.88 !important;
+    transition: transform 0.07s ease, opacity 0.07s !important;
+  }
+
+  /* ─ TASKBAR BUTTONS ───────────────────────────────────────── */
+  .taskbar-btn:active {
+    transform:  scale(0.88) !important;
+    background: rgba(74,154,181,0.28) !important;
+    border-color: rgba(74,154,181,0.55) !important;
+    transition: all 0.08s ease !important;
+  }
+
+  /* ─ NAV DRAWER BUTTONS ─────────────────────────────────────── */
+  .mobile-nav-drawer button:active {
+    background: rgba(74,154,181,0.14) !important;
+    transform: scale(0.98) !important;
+    transition: all 0.07s !important;
+  }
+
+  /* ─ WINDOW CLOSE/MIN/MAX BUTTONS ─────────────────────────── */
+  .wf-btn:hover  { opacity: 1; transform: none; }
+  .wf-btn:active {
+    transform:  scale(1.25) !important;
+    opacity:    0.75 !important;
+    transition: transform 0.07s ease !important;
+  }
+
+  /* ─ PROFILE / GENERIC BUTTONS ────────────────────────────── */
+  button:not(.wf-btn):not(.taskbar-btn):not(.btn-ice):not(.btn-ice-primary):active {
+    opacity:    0.70;
+    transform:  scale(0.97);
+    transition: opacity 0.07s, transform 0.07s;
+  }
+
+  /* ─ ICE BADGE ──────────────────────────────────────────────── */
+  .ice-badge:active {
+    background: rgba(74, 154, 181, 0.16);
+    border-color: rgba(74, 154, 181, 0.4);
+    transition: all 0.07s;
+  }
+}

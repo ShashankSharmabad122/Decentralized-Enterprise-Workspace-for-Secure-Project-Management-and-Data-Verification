@@ -1,0 +1,62 @@
+{
+  "name": "dOS: Decentralized Enterprise Workspace",
+  "short_name": "dOS",
+  "description": "Zero-Trust, Blockchain-Powered Web-based OS with WebGL 3D Universe, RSA-AES Cryptography, ERC-4337 Smart Accounts, and Hyperledger Besu QBFT.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#040d14",
+  "theme_color": "#040d14",
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["productivity", "finance", "developer", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' fill='%23000000'/><circle cx='100' cy='100' r='91' fill='none' stroke='%23ffffff' stroke-width='9'/><circle cx='100' cy='100' r='77' fill='none' stroke='%23ffffff' stroke-width='5.5'/><g fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round'><path d='M 115 48 C 145 48, 162 63, 162 80 C 162 96, 148 105, 130 110 L 100 118 C 78 124, 62 134, 62 152 C 62 169, 77 182, 100 182 C 118 182, 133 174, 140 162' stroke-width='14'/><path d='M 78 62 C 78 49, 90 42, 105 42 C 122 42, 138 51, 142 66' stroke-width='14'/><path d='M 124 68 C 140 68, 148 76, 148 86 C 148 96, 139 102, 124 107 L 98 116 C 82 121, 72 130, 72 143 C 72 156, 82 164, 98 164 C 110 164, 120 158, 126 150' stroke-width='9'/><path d='M 88 76 C 88 67, 95 62, 105 62 C 116 62, 125 68, 127 77' stroke-width='9'/><path d='M 100 155 C 92 155, 86 150, 86 144 C 86 136, 94 132, 102 135 C 110 138, 112 146, 106 152 C 102 156, 96 156, 92 152' stroke-width='8'/></g></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><rect width='200' height='200' rx='44' fill='%23040d14'/><circle cx='100' cy='100' r='77' fill='none' stroke='%234a9ab5' stroke-width='6'/><g fill='none' stroke='%234a9ab5' stroke-linecap='round' stroke-linejoin='round'><path d='M 115 48 C 145 48, 162 63, 162 80 C 162 96, 148 105, 130 110 L 100 118 C 78 124, 62 134, 62 152 C 62 169, 77 182, 100 182 C 118 182, 133 174, 140 162' stroke-width='12'/><path d='M 78 62 C 78 49, 90 42, 105 42 C 122 42, 138 51, 142 66' stroke-width='12'/></g></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Architecture Blueprint",
+      "short_name": "Blueprint",
+      "description": "Open the Phase 1 Architecture Visualizer",
+      "url": "/?app=architecture",
+      "icons": [{ "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a9ab5' stroke-width='2'><rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/></svg>", "sizes": "96x96" }]
+    },
+    {
+      "name": "File Vault",
+      "short_name": "Vault",
+      "description": "Open the RSA-AES encrypted file vault",
+      "url": "/?app=files",
+      "icons": [{ "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236ee7b7' stroke-width='2'><rect x='3' y='11' width='18' height='11' rx='2' ry='2'/><path d='M7 11V7a5 5 0 0 1 10 0v4'/></svg>", "sizes": "96x96" }]
+    },
+    {
+      "name": "Portfolio",
+      "short_name": "Portfolio",
+      "description": "View Shashank Sharma's portfolio",
+      "url": "/?app=portfolio",
+      "icons": [{ "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fb923c' stroke-width='2'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "label": "dOS Desktop — Crystal Node Grid",
+      "form_factor": "wide"
+    },
+    {
+      "label": "dOS Mobile — App Launcher",
+      "form_factor": "narrow"
+    }
+  ]
+}
