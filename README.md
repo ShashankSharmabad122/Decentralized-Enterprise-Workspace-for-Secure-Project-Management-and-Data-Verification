@@ -22,6 +22,7 @@ The entire experience is designed to look like an OS workspace, making the platf
 ## Showcase
 
 ![dOS dashboard showcase](docs/screenshots/dos-showcase.png)
+Go Live - https://shashanksharmabad122.github.io/Decentralized-Enterprise-Workspace-for-Secure-Project-Management-and-Data-Verification/
 
 ## Key Features
 
