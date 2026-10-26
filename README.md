@@ -22,7 +22,8 @@ The entire experience is designed to look like an OS workspace, making the platf
 ## Showcase
 
 ![dOS dashboard showcase](docs/screenshots/dos-showcase.png)
-Go Live - https://shashanksharmabad122.github.io/Decentralized-Enterprise-Workspace-for-Secure-Project-Management-and-Data-Verification/
+Go For pre-Live - https://shashanksharmabad122.github.io/Decentralized-Enterprise-Workspace-for-Secure-Project-Management-and-Data-Verification/
+Note: Some of functions are not work on github live preview so downloads the file and run in your application like VS code.
 
 ## Key Features
 
